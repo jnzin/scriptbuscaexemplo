@@ -1,6 +1,7 @@
-import json
+# Exemplo que puxa terrenos maiores de 50.000 m2 da api Vivareal do munícipio de Limeira - SP
+
+
 import pandas as pd
-import time
 import requests
 
 headers = {
@@ -38,7 +39,7 @@ count = 1
 
 
 link = "https://glue-api.vivareal.com/v2/listings?addressCity=Pindamonhangaba&addressLocationId=BR>Sao Paulo>NULL>Pindamonhangaba&addressNeighborhood=&addressState=São Paulo&addressCountry=Brasil&addressStreet=&addressZone=&addressPointLat=-22.926393&addressPointLon=-45.46204&usableAreasMin=45000&business=SALE&facets=amenities&unitTypes=ALLOTMENT_LAND&unitSubTypes=UnitSubType_NONE,CONDOMINIUM,VILLAGE_HOUSE&unitTypesV3=RESIDENTIAL_ALLOTMENT_LAND&usageTypes=RESIDENTIAL&listingType=USED&parentId=null&categoryPage=RESULT&includeFields=search(result(listings(listing(displayAddressType,amenities,usableAreas,constructionStatus,listingType,description,title,unitTypes,nonActivationReason,propertyType,unitSubTypes,id,portal,parkingSpaces,address,suites,publicationType,externalId,bathrooms,usageTypes,totalAreas,advertiserId,bedrooms,pricingInfos,showPrice,status,advertiserContact,videoTourLink,whatsappNumber,stamps),account(id,name,logoUrl,licenseNumber,showAddress,legacyVivarealId,phones,tier),medias,accountLink,link)),totalCount),page,seasonalCampaigns,fullUriFragments,nearby(search(result(listings(listing(displayAddressType,amenities,usableAreas,constructionStatus,listingType,description,title,unitTypes,nonActivationReason,propertyType,unitSubTypes,id,portal,parkingSpaces,address,suites,publicationType,externalId,bathrooms,usageTypes,totalAreas,advertiserId,bedrooms,pricingInfos,showPrice,status,advertiserContact,videoTourLink,whatsappNumber,stamps),account(id,name,logoUrl,licenseNumber,showAddress,legacyVivarealId,phones,tier),medias,accountLink,link)),totalCount)),expansion(search(result(listings(listing(displayAddressType,amenities,usableAreas,constructionStatus,listingType,description,title,unitTypes,nonActivationReason,propertyType,unitSubTypes,id,portal,parkingSpaces,address,suites,publicationType,externalId,bathrooms,usageTypes,totalAreas,advertiserId,bedrooms,pricingInfos,showPrice,status,advertiserContact,videoTourLink,whatsappNumber,stamps),account(id,name,logoUrl,licenseNumber,showAddress,legacyVivarealId,phones,tier),medias,accountLink,link)),totalCount)),account(id,name,logoUrl,licenseNumber,showAddress,legacyVivarealId,phones,tier,phones),facets,developments(search(result(listings(listing(displayAddressType,amenities,usableAreas,constructionStatus,listingType,description,title,unitTypes,nonActivationReason,propertyType,unitSubTypes,id,portal,parkingSpaces,address,suites,publicationType,externalId,bathrooms,usageTypes,totalAreas,advertiserId,bedrooms,pricingInfos,showPrice,status,advertiserContact,videoTourLink,whatsappNumber,stamps),account(id,name,logoUrl,licenseNumber,showAddress,legacyVivarealId,phones,tier),medias,accountLink,link)),totalCount)),owners(search(result(listings(listing(displayAddressType,amenities,usableAreas,constructionStatus,listingType,description,title,unitTypes,nonActivationReason,propertyType,unitSubTypes,id,portal,parkingSpaces,address,suites,publicationType,externalId,bathrooms,usageTypes,totalAreas,advertiserId,bedrooms,pricingInfos,showPrice,status,advertiserContact,videoTourLink,whatsappNumber,stamps),account(id,name,logoUrl,licenseNumber,showAddress,legacyVivarealId,phones,tier),medias,accountLink,link)),totalCount))&size=36&from=&q=&developmentsSize=5&__vt=control&levels=CITY,UNIT_TYPE&ref=&pointRadius=&isPOIQuery="
-file_name = "alea/pindamonhangaba.xlsx"
+file_name = "limeira.xlsx"
 r = requests.get(link, headers=headers)
 dados = r.json()
 
@@ -61,17 +62,7 @@ for i in dados["search"]["result"]["listings"]:
         operacao.append('COMPRA')
         precoaluguel.append('-')
         precocompra.append(i['listing']['pricingInfos'][0]['price'])
-        # if(i['listing']['pricingInfos'][0]['businessType']=='RENTAL'):
-        #     operacao.append('COMPRA/ALUGUEL')
-        #     precoaluguel.append(i['listing']['pricingInfos'][0]['price'])
-        #     precocompra.append(i['listing']['pricingInfos'][1]['price'])
-        # else:
-        #     operacao.append('COMPRA')
-        #     precoaluguel.append('-')
-        #     precocompra.append(i['listing']['pricingInfos'][0]['price'])
-
-        
-
+       
     try:
         endereco.append(i['listing']['address']['street'] + ', ' + i['listing']['address']['streetNumber'])
     except:
